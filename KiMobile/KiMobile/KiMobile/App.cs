@@ -11,24 +11,23 @@ namespace KiMobile
 	{
 		public App ()
 		{
-			// The root page of your application
-			MainPage = new ContentPage {
-				Content = new StackLayout {
-					VerticalOptions = LayoutOptions.Center,
-					Children = {
-						new Label {
-							HorizontalTextAlignment = TextAlignment.Center,
-							Text = "Welcome to Xamarin Forms!"
-						}
-					}
-				}
-			};
-		}
+            // The root page of your application
 
-		protected override void OnStart ()
+
+           
+        }
+        void LogonOnButtonClicked(object sender, EventArgs e)
+        {
+            //  Go to main logonpage
+            //App.Current.MainPage = new Pages.Logon.MainLogon();
+
+        }
+
+        protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+            App.Current.MainPage = new Pages.Logon.MainLogon();
+        }
 
 		protected override void OnSleep ()
 		{
@@ -37,7 +36,8 @@ namespace KiMobile
 
 		protected override void OnResume ()
 		{
-			// Handle when your app resumes
-		}
+            App.Current.MainPage = new Pages.Logon.MainLogon();
+            // Handle when your app resumes
+        }
 	}
 }

@@ -17,7 +17,7 @@ namespace KiMobile.Droid
 			base.OnCreate (bundle);
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
-			LoadApplication (new KiMobile.App ());
+			LoadApplication (new KiMobile.Main.App ());
 		}
 	}
 }

@@ -14,7 +14,7 @@ using Xamarin.Forms.Platform.Android;
 using KiMobile.Droid.Renderers;
 using Xamarin.Auth;
 
-[assembly: ExportRenderer(typeof(KiMobile.Pages.Logon.Facebook), typeof(LogonFaceBookPageRenderer))]
+[assembly: ExportRenderer(typeof(KiMobile.Main.Pages.Logon.Facebook), typeof(LogonFaceBookPageRenderer))]
 
 namespace KiMobile.Droid.Renderers
 {
@@ -28,13 +28,14 @@ namespace KiMobile.Droid.Renderers
 
             // this is a ViewGroup - so should be able to load an AXML file and FindView<>
             var activity = this.Context as Activity;
-
+            
             var auth = new OAuth2Authenticator(
-                clientId: "1397851943872695", // your OAuth2 client id
+                clientId: KiMobile.Settings.Settings.FaceBookAppId, 
                 scope: "", // the scopes for the particular API you're accessing, delimited by "+" symbols
-                authorizeUrl: new Uri("https://m.facebook.com/dialog/oauth/"), // the auth URL for the service
-                redirectUrl: new Uri("https://www.konsumentinfo.se/connect/login_success.html")); // the redirect URL for the service
-
+                authorizeUrl: new Uri(Settings.Settings.FaceBookAuthorizeUrl), // the auth URL for the service
+                redirectUrl: new Uri(Settings.Settings.FaceBookRedirectUrl)); // the redirect URL for the service
+            
+            
             auth.Completed += (sender, eventArgs) =>
             {
                 if (eventArgs.IsAuthenticated)
@@ -42,15 +43,22 @@ namespace KiMobile.Droid.Renderers
                     // App.SuccessfulLoginAction.Invoke();
                     // Use eventArgs.Account to do wonderful things
                     // App.SaveToken(eventArgs.Account.Properties["access_token"]);
-                    KiMobile.Pages.Logon.MainLogon.FaceBookToken = eventArgs.Account.Properties["access_token"];
-                    Pages.Logon.Facebook.LoginSuccess();
-                    
+                    KiMobile.Main.Pages.Logon.MainLogon.FaceBookToken = eventArgs.Account.Properties["access_token"];
 
+                    //  Save account data to accountStorage
+                    Helpers.AccountData.Facebook = eventArgs.Account;
+
+
+                    Main.Pages.Logon.Facebook.LoginSuccess(sender, eventArgs);
+
+
+                    // AccountStore.Create (this).Save(eventArgs.Account, "Facebook");
+                    
                 }
                 else
                 {
                     // The user cancelled
-                    Pages.Logon.Facebook.LoginCancel();
+                    Main.Pages.Logon.Facebook.LoginCancel();
                 }
             };
 
