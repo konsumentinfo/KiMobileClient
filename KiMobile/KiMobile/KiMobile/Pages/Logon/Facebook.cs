@@ -15,20 +15,20 @@ namespace KiMobile.Pages.Logon
             //Page is Rendered in CustomRenderer for IOS and Android
 
         }
-        public static event EventHandler LoginSucceeded;
-        public static event EventHandler LoginCancelled;
+        public static event EventHandler LoginFaceBookSucceeded;
+        public static event EventHandler LoginFaceBookCancelled;
         public static Object sender;
         public static void LoginSuccess()
         {
             //Invoked and then sent to the App.cs
-            LoginSucceeded(sender, EventArgs.Empty);
+            LoginFaceBookSucceeded(sender, EventArgs.Empty);
 
         }
 
         public static void LoginCancel()
         {
             //Invoked and then sent to the App.cs
-            LoginCancelled(sender, EventArgs.Empty);
+            LoginFaceBookCancelled(sender, EventArgs.Empty);
 
         }
     }
