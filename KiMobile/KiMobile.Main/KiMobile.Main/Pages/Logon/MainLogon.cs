@@ -5,6 +5,7 @@ using System.Json;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Auth;
 using Xamarin.Forms;
 
@@ -110,7 +111,7 @@ namespace KiMobile.Main.Pages.Logon
 
         }
 
-        void DoFaceBookLogon(object sender, EventArgs e)
+        async void DoFaceBookLogon(object sender, EventArgs e)
         {
 
             //  Check if facebook account exist on phone.
@@ -120,19 +121,45 @@ namespace KiMobile.Main.Pages.Logon
 
             if (dd == null)
             {
+                //  no facebook account exist.
                 App.Current.MainPage = new Pages.Logon.Facebook();
                 dfsdf = "sdfsdfdsf";
             }
             else
             {
+                //  Facebook account exist in phone
                 dfsdf = "sdfsdfdsf";
                 this.HandleLoginFaceBookSucceeded(this, null);
             }
 
+
+            if (KiMobile.Settings.Settings.UserProfileFaceBook == null)
+            {
+                //  Something have went wrong whit fb logon.
+                //  Kill phone fb account.
+                AccountData.FacebookDeleteCredentials();
+
+                Settings.Settings.UserIsLoggedIn = false;
+                Settings.Settings.NavPage = Settings.Enum.Pages.MainLogon;
+                App.Current.MainPage = new Pages.Logon.MainLogon();
+            }
+
+            else
+            {
+                dfsdf = "sdfsdfdsf";
+
+                Settings.Settings.UserIsLoggedIn = true;
+                Settings.Settings.NavPage = Settings.Enum.Pages.MainPage;
+                App.Current.MainPage = new Pages.MainPage();
+            }
+
+
             dfsdf = "sdfsdfdsf";
 
-
         }
+
+
+
 
         public void HandleLoginFaceBookSucceeded(object sender, EventArgs e)
         {
@@ -169,33 +196,16 @@ namespace KiMobile.Main.Pages.Logon
             //  Get information from facebook.
 
 
-
             AccountCommunicationFaceBook.GetProfileData();
 
 
             var dsdfdsfds = "sdfsdf";
 
 
-            //var request = new OAuth2Request("GET", new Uri("https://graph.facebook.com/me"), null, dfe.Account);
-            //await request.GetResponseAsync().ContinueWith(t =>
-            // {
-            //     if (t.IsFaulted)
-            //         ddf = "Error: " + t.Exception.InnerException.Message;
-            //     else if (t.IsCanceled)
-            //         ddf = "Canceled";
-            //     else
-            //     {
-            //         var obj = JsonValue.Parse(t.Result.GetResponseText());
-            //         ddf = "Logged in as " + obj["name"];
-            //     };
 
 
-            // });
-
-            Settings.Settings.UserIsLoggedIn = true;
             var dsfsdf = "sdfsdfdsf";
-            Settings.Settings.NavPage = Settings.Enum.Pages.MainPage;
-            App.Current.MainPage = new Pages.MainPage();
+
 
         }
 

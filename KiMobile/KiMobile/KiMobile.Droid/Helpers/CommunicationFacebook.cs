@@ -18,13 +18,14 @@ using Xamarin.Auth;
 using KiMobile.Main.Interfaces;
 using KiMobile.Droid.Helpers;
 using KiMobile.Settings;
+using System.Threading.Tasks;
 
 [assembly: Dependency(typeof(CommunicationFacebook))]
 namespace KiMobile.Droid.Helpers
 {
     public class CommunicationFacebook : ICommunicationFacebook
     {
-        public async void GetProfileData()
+        public void GetProfileData()
         {
             Settings.Settings.LogonData.FaceBook.CommunicationResponse = "running";
             Settings.Settings.LogonData.FaceBook.CommunicationIsWorking = false;
@@ -39,11 +40,34 @@ namespace KiMobile.Droid.Helpers
 
             ddf = "dsfsdfdsf";
 
-            var response = await request.GetResponseAsync();
+            Task<Xamarin.Auth.Response> getFbData = request.GetResponseAsync();
+
+            // var response = await request.GetResponseAsync();
+            // await getFbData;
+            // var response = await getFbData;
             // var obj = JsonValue.Parse(response.Result.GetResponseText());
-            var obj = JsonValue.Parse(response.GetResponseText());
+
+            var obj = JsonValue.Parse(getFbData.Result.GetResponseText());
 
             ddf = "dsfsdfdsf";
+
+            #region Obj syntax facebook return data
+            /*
+                "birthday": "07/30/1932",
+                "email": "",
+                "first_name": "",
+                "gender": "", 
+                "id": "",
+                "last_name": "",
+                "link": "",
+                "locale": "sv_SE",
+                "name": "",
+                "timezone": 2,
+                "updated_time": "2016-04-22T18:42:25+0000",
+                "verified": true
+             * 
+             * */
+            #endregion
 
             if (obj != null)
             {
@@ -98,75 +122,6 @@ namespace KiMobile.Droid.Helpers
 
             ddf = "dsfsdfdsf";
 
-
-
-
-            //request.GetResponseAsync().ContinueWith(t =>
-            //{
-            //     if (t.IsFaulted)
-            //         Settings.Settings.LogonData.FaceBook.CommunicationResponse = "error: " + t.Exception.InnerException.Message;
-            //     else if (t.IsCanceled)
-            //     {
-            //         Settings.Settings.LogonData.FaceBook.CommunicationResponse = "canceled";
-            //     }
-            //     else
-            //     {
-
-            //        var obj = JsonValue.Parse(t.Result.GetResponseText());
-
-            //        var sdfdsf = "sdfsdf";
-
-            //        #region Obj syntax facebook return data
-            //        /*
-            //            "birthday": "07/30/1932",
-            //            "email": "",
-            //            "first_name": "",
-            //            "gender": "", 
-            //            "id": "",
-            //            "last_name": "",
-            //            "link": "",
-            //            "locale": "sv_SE",
-            //            "name": "",
-            //            "timezone": 2,
-            //            "updated_time": "2016-04-22T18:42:25+0000",
-            //            "verified": true
-            //         * 
-            //         * */
-            //        #endregion
-
-            //        tmpReturn.Birtday = obj?["birthday"];
-            //        tmpReturn.Email = obj?["email"];
-            //        tmpReturn.FirstName = obj?["first_name"];
-            //        tmpReturn.LastName = obj?["last_name"];
-            //        tmpReturn.Id = obj?["id"];
-            //        tmpReturn.Gender = obj?["male"];
-            //        tmpReturn.Name = obj?["name"];
-            //        tmpReturn.Link = obj?["link"];
-            //        tmpReturn.TimeZone = obj?["timezone"];
-            //        tmpReturn.UpdateTime = obj?["updated_time"];
-            //        tmpReturn.Verified = obj?["verified"];
-
-            //        Settings.Settings.LogonData.FaceBook.CommunicationResponse = "ok";
-            //        Settings.Settings.LogonData.FaceBook.CommunicationIsWorking = true;
-            //        // + obj["name"];
-            //     };
-
-
-            //});
-
-            //DateTime tmpStratTime = DateTime.UtcNow;
-            //while (Settings.Settings.LogonData.FaceBook.CommunicationResponse == "running")
-            //{
-            //    System.Threading.Thread.Sleep(1000);
-            //    if ((DateTime.UtcNow - tmpStratTime).TotalSeconds >= 60)
-            //    {
-            //        Settings.Settings.LogonData.FaceBook.CommunicationResponse = "error";
-            //        break;
-            //    }
-            //}
-
-
-            var sdfdsfds = "sdfsdf";
         }
 
     }
