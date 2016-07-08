@@ -12,14 +12,11 @@ namespace KiMobile.Main.Pages
     {
         public MainPage()
         {
-            if (Settings.Settings.NavPage == null)
-            {
-                Settings.Settings.NavPage = "MainPage";
-            }
                 
-
-            if (Settings.Settings.NavPage != "MainPage")
+            
+            if (Settings.Settings.NavPage !=  Settings.Enum.Pages.MainPage )
             {
+                //  Go to page that shod be shown.
                 var dsfdsfd = "sdfsdfd";
             }
             var dsfdddsfd = "sdfsdfd";

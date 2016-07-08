@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\AccountData.cs" />
+    <Compile Include="Helpers\CommunicationFacebook.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\LogonFaceBookPageRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

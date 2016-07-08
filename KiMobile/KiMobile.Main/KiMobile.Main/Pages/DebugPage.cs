@@ -29,6 +29,7 @@ namespace KiMobile.Main.Pages
 
         void DoPageShowMainPage(object sender, EventArgs e)
         {
+            Settings.Settings.NavPage = Settings.Enum.Pages.MainPage;
             App.Current.MainPage = new Pages.MainPage();
 
         }

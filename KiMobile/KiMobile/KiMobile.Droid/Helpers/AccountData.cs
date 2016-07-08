@@ -13,15 +13,16 @@ using Android.Widget;
 using Xamarin.Forms;
 using KiMobile.Droid.Helpers;
 using Xamarin.Auth;
+using KiMobile.Main.Interfaces;
 
 //  https://developer.xamarin.com/recipes/cross-platform/xamarin-forms/general/store-credentials/
 
 [assembly: Dependency(typeof(AccountData))]
 namespace KiMobile.Droid.Helpers
 {
-    public class AccountData
+    public class AccountData : IAccountData
     {
-        public static Account Facebook
+        public Account Facebook
         {
             get
             {
@@ -37,7 +38,7 @@ namespace KiMobile.Droid.Helpers
                 
             }
         }
-        public static void FacebookDeleteCredentials()
+        public void FacebookDeleteCredentials()
         {
             var account = Facebook;
             if (account != null)

@@ -1,40 +1,34 @@
-﻿using System;
+﻿using KiMobile.Main.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Json;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
-
+using Xamarin.Auth;
 using Xamarin.Forms;
 
 namespace KiMobile.Main.Pages.Logon
 {
+
     public class MainLogon : ContentPage
     {
-        static string _TokenFacebook;
+        protected IAccountData AccountData { get; set; } = DependencyService.Get<IAccountData>();
+        protected ICommunicationFacebook AccountCommunicationFaceBook { get; set; } = DependencyService.Get<ICommunicationFacebook>();
 
-        public static string FaceBookToken
-        {
-            get
-            {
-                return _TokenFacebook;
-            }
-            set
-            {
-                _TokenFacebook = value;
-                var dfsdf = "sdfdsf";
-            }
-        }
 
         public MainLogon()
         {
 
-            //Eventsfired from the LoginPage to trigger actions here
+            //Event handling facebook logon
             Facebook.LoginFaceBookSucceeded += HandleLoginFaceBookSucceeded;
             Facebook.LoginFaceBookCancelled += CancelLoginAction;
 
 
-            //  Build page design
+            
+            #region Build page design
 
+            
             this.Padding = new Thickness(20, Device.OnPlatform(40, 20, 20), 20, 20);
 
             #region Top loggo and Text
@@ -112,27 +106,95 @@ namespace KiMobile.Main.Pages.Logon
             //  Output page design
             this.Content = panelPut;
 
+            #endregion
 
         }
 
         void DoFaceBookLogon(object sender, EventArgs e)
         {
 
+            //  Check if facebook account exist on phone.
+            var dd = AccountData.Facebook;
 
-            App.Current.MainPage = new Pages.Logon.Facebook();
             var dfsdf = "sdfsdfdsf";
+
+            if (dd == null)
+            {
+                App.Current.MainPage = new Pages.Logon.Facebook();
+                dfsdf = "sdfsdfdsf";
+            }
+            else
+            {
+                dfsdf = "sdfsdfdsf";
+                this.HandleLoginFaceBookSucceeded(this, null);
+            }
+
+            dfsdf = "sdfsdfdsf";
+
+
         }
 
-        public async void HandleLoginFaceBookSucceeded(object sender, EventArgs e)
+        public void HandleLoginFaceBookSucceeded(object sender, EventArgs e)
         {
+            string ddf = "";
+
+            if (e == null)
+            {
+                ddf = "";
+                KiMobile.Settings.Settings.LogonData.LogonType = Settings.Enum.LogonType.Facebook;
+                KiMobile.Settings.Settings.LogonData.FaceBook = new Settings.LogonDataFaceBook
+                {
+                    Account = AccountData.Facebook,
+                    Token = AccountData.Facebook.Properties["access_token"],
+                    TokenExpiresIn = Convert.ToUInt64(AccountData.Facebook.Properties["expires_in"])
+                };
+            }
+            else
+            {
+                ddf = "";
+                AuthenticatorCompletedEventArgs dfe = (AuthenticatorCompletedEventArgs)e;
+                AccountData.Facebook = dfe.Account;
+
+            }
+
+            ddf = "";
+
             //awaits writing token to storage and resets the MainPage UI
             //await storeToken();
             //MainPage = new Welcome();
 
+            //  Save account data to accountStorage
 
 
+            //  Get information from facebook.
+
+
+
+            AccountCommunicationFaceBook.GetProfileData();
+
+
+            var dsdfdsfds = "sdfsdf";
+
+
+            //var request = new OAuth2Request("GET", new Uri("https://graph.facebook.com/me"), null, dfe.Account);
+            //await request.GetResponseAsync().ContinueWith(t =>
+            // {
+            //     if (t.IsFaulted)
+            //         ddf = "Error: " + t.Exception.InnerException.Message;
+            //     else if (t.IsCanceled)
+            //         ddf = "Canceled";
+            //     else
+            //     {
+            //         var obj = JsonValue.Parse(t.Result.GetResponseText());
+            //         ddf = "Logged in as " + obj["name"];
+            //     };
+
+
+            // });
+
+            Settings.Settings.UserIsLoggedIn = true;
             var dsfsdf = "sdfsdfdsf";
-
+            Settings.Settings.NavPage = Settings.Enum.Pages.MainPage;
             App.Current.MainPage = new Pages.MainPage();
 
         }

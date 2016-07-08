@@ -50,6 +50,7 @@ namespace KiMobile.Main
         protected override void OnStart()
         {
             // Handle when your app starts
+            Settings.Settings.NavPage = Settings.Enum.Pages.MainPage;
             App.Current.MainPage = new Pages.MainPage();
         }
 

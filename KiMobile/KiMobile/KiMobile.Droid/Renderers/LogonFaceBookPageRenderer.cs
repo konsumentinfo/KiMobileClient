@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using KiMobile.Droid.Renderers;
 using Xamarin.Auth;
+using System.Json;
 
 [assembly: ExportRenderer(typeof(KiMobile.Main.Pages.Logon.Facebook), typeof(LogonFaceBookPageRenderer))]
 
@@ -32,10 +33,11 @@ namespace KiMobile.Droid.Renderers
             var auth = new OAuth2Authenticator(
                 clientId: KiMobile.Settings.Settings.FaceBookAppId, 
                 scope: "", // the scopes for the particular API you're accessing, delimited by "+" symbols
-                authorizeUrl: new Uri(Settings.Settings.FaceBookAuthorizeUrl), // the auth URL for the service
-                redirectUrl: new Uri(Settings.Settings.FaceBookRedirectUrl)); // the redirect URL for the service
-            
-            
+                authorizeUrl: new Uri(KiMobile.Settings.Settings.FaceBookAuthorizeUrl), // the auth URL for the service
+                redirectUrl: new Uri(KiMobile.Settings.Settings.FaceBookRedirectUrl)); // the redirect URL for the service
+
+            var dsfdsf = "sdfdsfd";
+
             auth.Completed += (sender, eventArgs) =>
             {
                 if (eventArgs.IsAuthenticated)
@@ -43,10 +45,22 @@ namespace KiMobile.Droid.Renderers
                     // App.SuccessfulLoginAction.Invoke();
                     // Use eventArgs.Account to do wonderful things
                     // App.SaveToken(eventArgs.Account.Properties["access_token"]);
-                    KiMobile.Main.Pages.Logon.MainLogon.FaceBookToken = eventArgs.Account.Properties["access_token"];
+
+                    
+
+                    KiMobile.Settings.Settings.LogonData.LogonType = Settings.Enum.LogonType.Facebook;
+                    KiMobile.Settings.Settings.LogonData.FaceBook = new Settings.LogonDataFaceBook
+                    {
+                        Account = eventArgs.Account,
+                        Token = eventArgs.Account.Properties["access_token"],
+                        TokenExpiresIn = Convert.ToUInt64(eventArgs.Account.Properties["expires_in"])
+                    };
+
+
+                    // KiMobile.Main.Pages.Logon.MainLogon.FaceBookToken = eventArgs.Account.Properties["access_token"];
 
                     //  Save account data to accountStorage
-                    Helpers.AccountData.Facebook = eventArgs.Account;
+                    // Helpers.AccountData.Facebook = eventArgs.Account;
 
 
                     Main.Pages.Logon.Facebook.LoginSuccess(sender, eventArgs);

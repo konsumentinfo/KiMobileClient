@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
-
+using Xamarin.Auth;
 using Xamarin.Forms;
 
 namespace KiMobile.Main.Pages.Logon
@@ -18,7 +18,7 @@ namespace KiMobile.Main.Pages.Logon
         public static event EventHandler LoginFaceBookSucceeded;
         public static event EventHandler LoginFaceBookCancelled;
         public static Object sender;
-        public static void LoginSuccess(object sendernew, EventArgs e)
+        public static void LoginSuccess(object sendernew, AuthenticatorCompletedEventArgs e)
         {
             //Invoked and then sent to the App.cs
             LoginFaceBookSucceeded(sendernew, e);
@@ -28,7 +28,7 @@ namespace KiMobile.Main.Pages.Logon
         public static void LoginCancel()
         {
             //Invoked and then sent to the App.cs
-            LoginFaceBookCancelled(sender, EventArgs.Empty);
+            LoginFaceBookCancelled(sender, AuthenticatorCompletedEventArgs.Empty);
 
         }
     }

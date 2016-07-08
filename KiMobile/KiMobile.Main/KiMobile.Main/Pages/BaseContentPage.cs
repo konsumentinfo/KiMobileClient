@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KiMobile.Main.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -10,13 +11,16 @@ namespace KiMobile.Main.Pages
 {
     public class BaseContentPage : ContentPage
     {
+        protected IAccountData AccountData { get; set; } = DependencyService.Get<IAccountData>();
+        
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
             if (!Settings.Settings.UserIsLoggedIn)
             {
-                // Navigation.PushModalAsync(new Logon.MainLogon());
+                    Navigation.PushModalAsync(new Logon.MainLogon());
             }
         }
     }
