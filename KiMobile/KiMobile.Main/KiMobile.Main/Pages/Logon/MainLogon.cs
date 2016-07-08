@@ -148,9 +148,17 @@ namespace KiMobile.Main.Pages.Logon
             {
                 dfsdf = "sdfsdfdsf";
 
-                Settings.Settings.UserIsLoggedIn = true;
-                Settings.Settings.NavPage = Settings.Enum.Pages.MainPage;
-                App.Current.MainPage = new Pages.MainPage();
+                this.UserLogon();
+                if (Settings.Settings.UserIsLoggedIn)
+                {
+                    Settings.Settings.NavPage = Settings.Enum.Pages.MainPage;
+                    App.Current.MainPage = new Pages.MainPage();
+                }
+                else
+                {
+                    Settings.Settings.NavPage = Settings.Enum.Pages.MainLogon;
+                    App.Current.MainPage = new Pages.Logon.MainLogon();
+                }
             }
 
 
@@ -159,7 +167,10 @@ namespace KiMobile.Main.Pages.Logon
         }
 
 
-
+        public void UserLogon()
+        {
+            Settings.Settings.UserIsLoggedIn = true;
+        }
 
         public void HandleLoginFaceBookSucceeded(object sender, EventArgs e)
         {
